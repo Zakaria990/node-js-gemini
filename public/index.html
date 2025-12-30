@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Furiza AI — Bluebot</title>
+  <link rel="stylesheet" href="/global.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #4ECDC4 0%, #45B8AF 50%, #2DD4BF 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0px;
+    }
+    .container {
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      max-height: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .title-box {
+      background: linear-gradient(135deg, #7FE5DC 0%, #5FD8CC 100%);
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 30px;
+      border-bottom-left-radius: 30px;
+      padding: 10px 25px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .title-box h1 {
+      color: #FF8C42;
+      font-size: 40px;
+      font-weight: bold;
+      text-align: center;
+      flex: 1;
+    }
+    .close-btn {
+      background-color: #EF5350;
+      border: none;
+      border-radius: 20px;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      color: white;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      margin-left: auto;
+    }
+    .close-btn:hover {
+      background-color: #E53935;
+      transform: scale(1.1);
+    }
+    .content {
+      display: flex;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
+    .bot-card {
+      background: linear-gradient(135deg, #f4fde3 0%, #06abf8 100%);
+      border-radius: 30px;
+      box-shadow: 0 8px 24px rgba(33, 150, 243, 0.15);
+      padding: 5px 5px 5px 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; /* Tambahkan ini agar isi di tengah vertikal */
+      margin-right: 5px;
+      width: 250px;
+      height: 250px;
+    }
+    .bot-head {
+      background-color: #0D47A1;
+      border-radius: 15px 15px 22px 22px;
+      width: 100%;
+      padding: 10px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      animation: bot-breath 5s ease-in-out infinite;
+    }
+    @keyframes bot-breath {
+      0%, 100% {
+      transform: scaleY(1) scaleX(1);
+      box-shadow: 0 0 24px 0 #2196f344;
+      }
+      50% {
+      transform: scaleY(1.03) scaleX(1.03);
+      box-shadow: 0 0 40px 8px #2196f366;
+      }
+    }
+    .bot-eye {
+      width: 30px;
+      height: 50px;
+      background-color: #4FC3F7;
+      border-radius: 50%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .bot-eye::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 4px #fff8;
+      z-index: 1;
+      transition: opacity 0.1s;
+    }
+    .bot-eye::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #0D47A1;
+      border-radius: 50%;
+      animation: blink 3s infinite;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .bot-eye.blinking::after {
+      opacity: 0;
+    }
+    .bot-eye:nth-child(2)::before {
+      animation-delay: 0.2s;
+    }
+    @keyframes blink {
+      0%, 92% {
+      opacity: 0;
+      height: 0%;
+      }
+      94%, 96% {
+      opacity: 1;
+      height: 100%;
+      }
+      98%, 100% {
+      opacity: 0;
+      height: 0%;
+      }
+    }
+    /* Hide the white part when blinking */
+    .bot-eye::before {
+      animation: blink 5s infinite;
+    }
+    .bot-eye::before {
+      /* When blinking, also hide the white part */
+      animation: blink 5s infinite;
+    }
+    .bot-eye.blinking::after {
+      opacity: 0;
+    }
+    .bot-arms {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      width: 100%;
+      margin-top: 5px;
+    }
+    .bot-arm {
+      width: 40px;
+      height: 30px;
+      background-color: #D4A500;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+    }
+    /* Animasi tangan saat hover, tetap di posisi akhir */
+    .bot-card.arm-animate .bot-arm:nth-child(1) {
+      animation: wave-left 0.7s 1 forwards;
+    }
+    .bot-card.arm-animate .bot-arm:nth-child(2) {
+      animation: wave-right 0.7s 1 forwards;
+    }
+    @keyframes wave-left {
+      0% { transform: rotate(0deg) translateY(0); }
+      100% { transform: rotate(-30deg) translateY(-10px); }
+    }
+    @keyframes wave-right {
+      0% { transform: rotate(0deg) translateY(0); }
+      100% { transform: rotate(30deg) translateY(-10px); }
+    }
+    .bot-name {
+      color: #1565C0;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 8px #b3e5fc99, 0 1px 0 #fff;
+      background: linear-gradient(90deg, #e3f2fd 0%, #b3e5fc 100%);
+      border-radius: 16px;
+      padding: 8px 20px;
+      box-shadow: 0 4px 12px rgba(21,101,192,0.10);
+      display: inline-block;
+    }
+    .chat-area {
+      background: linear-gradient(135deg, #11bfd6 0%, #1565C0 100%);
+      border-radius: 25px;
+      padding: 30px;
+      flex: 1;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      color: #B3E5FC;
+      font-size: 18px;
+      min-height: 0;
+    }
+    .input-area {
+      background: linear-gradient(135deg, #B2DFDB 0%, #80DEEA 100%);
+      border-radius: 25px;
+      padding: 20px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .input-area input {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 20px;
+      padding: 15px 25px;
+      font-size: 16px;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #424242;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .input-area input:focus {
+      box-shadow: 0 0 0 4px rgba(79, 195, 247, 0.3);
+    }
+    .input-area input::placeholder {
+      color: #9E9E9E;
+    }
+    .send-btn {
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      border: none;
+      border-radius: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    .send-btn:hover {
+      background: linear-gradient(135deg, #F57C00 0%, #E65100 100%);
+      transform: scale(1.1);
+    }
+    #messages { color: #fff; font-family: system-ui, sans-serif; }
+    #messages .ai  { color: #fff; margin:8px 0; }
+    #messages .user { color: #000; background: #ffd; padding:6px 8px; border-radius:6px; display:inline-block; margin:8px 0; }
+    #messages .meta { color: rgba(255,255,255,0.9); font-size:12px; opacity:0.9; }
+    #messages .error { color: #ffdddd; background:#660000; padding:6px; border-radius:4px; display:inline-block; }
+    @media (max-width: 768px) {
+      .content { flex-direction: column; }
+      .bot-card { width: 100%; }
+      .title-box h1 { font-size: 24px; }
+      .close-btn { width: 50px; height: 50px; font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title-box">
+      <h1>Welcome To Furiza AI</h1>
+      <button class="close-btn">✕</button>
+    </div>
+    <div class="content">
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <div class="bot-name">Bluebot concept</div>
+        <div class="bot-card">
+          <div class="bot-illustration">
+            <div class="bot-head">
+              <div class="bot-eye"></div>
+              <div class="bot-eye"></div>
+            </div>
+            <div class="bot-arms">
+              <div class="bot-arm"></div>
+              <div class="bot-arm"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-area">
+        <div id="messages"></div>
+      </div>
+    </div>
+    <div class="input-area">
+      <input id="input" type="text" placeholder="Ask anything . . ." />
+      <button id="send" class="send-btn">➤</button>
+    </div>
+  </div>
+  <script src="/client.js"></script>
+  <script>
+    document.querySelector('.close-btn').addEventListener('click', function() {
+      if (confirm('Are you sure you want to close?')) {
+        window.close();
+      }
+    });
+
+    // Animasi tangan bot saat hover
+    const botCard = document.querySelector('.bot-card');
+    botCard.addEventListener('mouseenter', () => {
+      botCard.classList.add('arm-animate');
+    });
+    botCard.addEventListener('mouseleave', () => {
+      botCard.classList.remove('arm-animate');
+    });
+  </script>
+</body>
+</html>
